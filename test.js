@@ -62,5 +62,17 @@ describe("paraflow", function() {
       r.done(1, 'X');
       assert.deepEqual(results, ['X']);
    });
+
+   it("should return the results in the input order, not finish order", function() {
+      var r = new recorder();
+      var results;
+      var p = paraflow(3, [1, 2, 3], r.func, function(output) {
+         results = output;
+      });
+      r.done(2, 'two');
+      r.done(3, 'three');
+      r.done(1, 'one');
+      assert.deepEqual(results, ['one', 'two', 'three']);
+   });
 });
 
