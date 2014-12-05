@@ -9,8 +9,8 @@ module.exports = function ParallelRecorder() {
 
    this.done = function(item) {
       if (doneCallbacks[item]) {
-         doneCallbacks[item];
          events.push("finished " + item);
+         doneCallbacks[item]();
       }
    }
 }
