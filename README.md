@@ -1,4 +1,5 @@
 ## Paraflow
+[![Build Status](https://travis-ci.org/danielbeardsley/paraflow.svg)](https://travis-ci.org/danielbeardsley/paraflow)
 
 Run an asynchronous function on (x) number of items in parallel while allowing
 (x) to change at any time.
