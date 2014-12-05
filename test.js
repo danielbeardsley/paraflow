@@ -53,26 +53,28 @@ describe("paraflow", function() {
       assert.deepEqual(r.events, ['started 1', 'finished 1', 'DONE']);
    });
 
-   it("should perform a map operation", function() {
-      var r = new recorder();
-      var results;
-      var p = paraflow(1, [1], r.func, function(output) {
-         results = output
+   describe("map operion", function() {
+      it("should perform basically on a single item", function() {
+         var r = new recorder();
+         var results;
+         var p = paraflow(1, [1], r.func, function(output) {
+            results = output
+         });
+         r.done(1, 'X');
+         assert.deepEqual(results, ['X']);
       });
-      r.done(1, 'X');
-      assert.deepEqual(results, ['X']);
-   });
 
-   it("should return the results in the input order, not finish order", function() {
-      var r = new recorder();
-      var results;
-      var p = paraflow(3, [1, 2, 3], r.func, function(output) {
-         results = output;
+      it("should return the results in the input order, not finish order", function() {
+         var r = new recorder();
+         var results;
+         var p = paraflow(3, [1, 2, 3], r.func, function(output) {
+            results = output;
+         });
+         r.done(2, 'two');
+         r.done(3, 'three');
+         r.done(1, 'one');
+         assert.deepEqual(results, ['one', 'two', 'three']);
       });
-      r.done(2, 'two');
-      r.done(3, 'three');
-      r.done(1, 'one');
-      assert.deepEqual(results, ['one', 'two', 'three']);
    });
 });
 
