@@ -23,7 +23,7 @@ module.exports = function Paraflow(maxFlow, items, func, finished) {
    }
 
    function completorFor(index) {
-      return function(result) {
+      return function(err, result) {
          results[index] = result;
          done();
       }
