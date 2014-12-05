@@ -53,6 +53,19 @@ describe("paraflow", function() {
       assert.deepEqual(r.events, ['started 1', 'finished 1', 'DONE']);
    });
 
+   it("should call the done function when all items are processed, but not before", function() {
+      var r = new recorder();
+      var done = false;
+      var p = paraflow(2, [1, 2], r.func, function() {
+         done = true
+      });
+      assert(!done);
+      r.done(1);
+      assert(!done);
+      r.done(2);
+      assert(done);
+   });
+
    describe("map operion", function() {
       it("should perform basically on a single item", function() {
          var r = new recorder();
@@ -74,6 +87,19 @@ describe("paraflow", function() {
          r.done(3, 'three');
          r.done(1, 'one');
          assert.deepEqual(results, ['one', 'two', 'three']);
+      });
+   });
+
+   describe("functions()", function() {
+      it("should perform the operation on a set of functions", function() {
+         function ret1(done) { done(null, 1) }
+         function ret2(done) { done(null, 2) }
+         var done;
+         paraflow.functions(1, [ret2, ret1], function(results) {
+            assert.deepEqual(results, [2,1]);
+            done = true;
+         });
+         assert.equal(done, true);
       });
    });
 });

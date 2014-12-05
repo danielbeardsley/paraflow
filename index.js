@@ -1,22 +1,19 @@
-module.exports = function Paraflow(maxFlow, items, func, finished) {
+function Paraflow(maxFlow, items, func, finished) {
    var flow = 0;
    var results = [];
    var index = 0;
+   var finishCount = 0;
    function next() {
       if (hasMore() && flow < maxFlow) {
          flow++;
-         func(items[index], completorFor(index));
-         index++
-
-         if (flow < maxFlow) {
-            next();
-         }
+         func(items[index], completorFor(index++));
+         next();
       }
    }
 
-   function done(result) {
+   function done() {
       flow--;
-      if (!hasMore()) {
+      if (!hasMore() && finishCount == items.length) {
          return finished && finished(results);
       }
       next();
@@ -24,6 +21,7 @@ module.exports = function Paraflow(maxFlow, items, func, finished) {
 
    function completorFor(index) {
       return function(err, result) {
+         finishCount++;
          results[index] = result;
          done();
       }
@@ -42,3 +40,11 @@ module.exports = function Paraflow(maxFlow, items, func, finished) {
       }
    }
 }
+
+Paraflow.functions = function(maxFlow, items, finished) {
+   return Paraflow(maxFlow, items, function(item, done) {
+      item(done);
+   }, finished);
+}
+   
+module.exports = Paraflow;
