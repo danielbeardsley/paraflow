@@ -3,13 +3,21 @@ var paraflow      = require('./index.js'),
     recorder      = require('./recorder.js');
 
 describe("paraflow", function() {
-   it("should run the defult number of functions in parallel", function() {
+   it("should run items in serial when asked", function() {
       var r = new recorder();
-      var i1 = '1', i2 = '2';
-      var p = paraflow(1, [i1, i2], r.func);
+      var p = paraflow(1, [1, 2], r.func);
       assert.deepEqual(r.events, ['started 1']);
-      r.done(i1);
+      r.done(1);
       assert.deepEqual(r.events, ['started 1', 'finished 1', 'started 2']);
+   });
+
+   it("should run X items in parallel when asked", function() {
+      var r = new recorder();
+      var p = paraflow(2, [1, 2], r.func);
+      assert.deepEqual(r.events, ['started 1', 'started 2']);
+      r.done(1);
+      r.done(2);
+      assert.deepEqual(r.events, ['started 1', 'started 2', 'finished 1', 'finished 2']);
    });
 });
 
