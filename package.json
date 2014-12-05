@@ -1,0 +1,19 @@
+{
+  "name": "paraflow",
+  "version": "0.0.1",
+  "description": "Run functions in parallel and dynamically alter the parallelization",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "parallel",
+    "async"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielbeardsley/paraflow.git"
+  }
+  "author": "Daniel Beardsley <daniel.beardsley@gmail.com>",
+  "license": "MIT"
+}
