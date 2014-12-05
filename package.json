@@ -1,6 +1,6 @@
 {
   "name": "paraflow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Run functions in parallel and dynamically alter the parallelization",
   "main": "index.js",
   "scripts": {
