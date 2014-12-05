@@ -9,5 +9,5 @@ Run an asynchronous function on (x) number of items in parallel while allowing
     var p = paraflow(3, jobs, workFunction);
 
     // later bump the number of parallel functions allowed.
-    p.setFlow(1)
+    p.maxFlow(1)
 

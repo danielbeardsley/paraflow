@@ -18,7 +18,7 @@ module.exports = function Paraflow(maxFlow, items, func) {
    next();
 
    return {
-      flow: function(inMaxFlow) {
+      maxFlow: function(inMaxFlow) {
          maxFlow = inMaxFlow;
          next();
       }
