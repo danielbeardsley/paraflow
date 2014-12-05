@@ -17,7 +17,26 @@ describe("paraflow", function() {
       assert.deepEqual(r.events, ['started 1', 'started 2']);
       r.done(1);
       r.done(2);
-      assert.deepEqual(r.events, ['started 1', 'started 2', 'finished 1', 'finished 2']);
+      assert.deepEqual(r.events, [
+         'started 1', 'started 2',
+         'finished 1', 'finished 2']);
+   });
+
+   it("should run X items in parallel and allow changing maxFlow", function() {
+      var r = new recorder();
+      var p = paraflow(1, [1, 2, 3], r.func);
+      assert.deepEqual(r.events, ['started 1']);
+      p.flow(2);
+      assert.deepEqual(r.events, ['started 1', 'started 2']);
+      p.flow(0);
+      r.done(1);
+      r.done(2);
+      assert.deepEqual(r.events, [
+         'started 1',  'started 2',
+         'finished 1', 'finished 2']);
+      p.flow(1);
+      assert.equal(r.events.length, 5);
+      assert.equal(r.events[4], 'started 3');
    });
 });
 
