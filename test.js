@@ -42,5 +42,15 @@ describe("paraflow", function() {
       assert.equal(r.events.length, 5);
       assert.equal(r.events[4], 'started 3');
    });
+
+   it("should call the done function when all items are processed", function() {
+      var r = new recorder();
+      var p = paraflow(1, [1], r.func, function() {
+         r.events.push("DONE");
+      });
+      assert.deepEqual(r.events, ['started 1']);
+      r.done(1);
+      assert.deepEqual(r.events, ['started 1', 'finished 1', 'DONE']);
+   });
 });
 

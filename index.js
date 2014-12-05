@@ -1,4 +1,4 @@
-module.exports = function Paraflow(maxFlow, items, func) {
+module.exports = function Paraflow(maxFlow, items, func, finished) {
    var flow = 0;
    function next() {
       if (items.length > 0 && flow < maxFlow) {
@@ -12,6 +12,9 @@ module.exports = function Paraflow(maxFlow, items, func) {
 
    function done() {
       flow--;
+      if (items.length == 0) {
+         return finished && finished();
+      }
       next();
    }
 
