@@ -52,5 +52,15 @@ describe("paraflow", function() {
       r.done(1);
       assert.deepEqual(r.events, ['started 1', 'finished 1', 'DONE']);
    });
+
+   it("should perform a map operation", function() {
+      var r = new recorder();
+      var results;
+      var p = paraflow(1, [1], r.func, function(output) {
+         results = output
+      });
+      r.done(1, 'X');
+      assert.deepEqual(results, ['X']);
+   });
 });
 
